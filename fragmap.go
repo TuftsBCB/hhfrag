@@ -8,10 +8,11 @@ import (
 	"sync"
 
 	"github.com/TuftsBCB/apps/hhsuite"
+	"github.com/TuftsBCB/fragbag"
+	"github.com/TuftsBCB/fragbag/bow"
 	"github.com/TuftsBCB/io/fasta"
 	"github.com/TuftsBCB/io/hhm"
 	"github.com/TuftsBCB/seq"
-	"github.com/TuftsBCB/structure"
 )
 
 type MapConfig struct {
@@ -175,16 +176,16 @@ func (fmap *FragmentMap) Id() string {
 	return fmap.Name
 }
 
-func (fmap *FragmentMap) Data() string {
-	return ""
+func (fmap *FragmentMap) Data() []byte {
+	return nil
 }
 
-func (fmap *FragmentMap) Atoms() [][]structure.Coords {
-	chunks := make([][]structure.Coords, 0, len(fmap.Segments)*10)
+func (fmap *FragmentMap) StructureBOW(lib *fragbag.StructureLibrary) bow.BOW {
+	bag := bow.NewBow(lib.Size())
 	for _, fragGroup := range fmap.Segments {
 		for _, frag := range fragGroup.Frags {
-			chunks = append(chunks, frag.CaAtoms)
+			bag = bag.Add(bow.StructureBOW(lib, frag.CaAtoms))
 		}
 	}
-	return chunks
+	return bag
 }
