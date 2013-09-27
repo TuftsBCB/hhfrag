@@ -180,7 +180,7 @@ func (fmap *FragmentMap) Data() []byte {
 	return nil
 }
 
-func (fmap *FragmentMap) StructureBOW(lib *fragbag.StructureLibrary) bow.BOW {
+func (fmap *FragmentMap) StructureBOW(lib fragbag.StructureLibrary) bow.BOW {
 	bag := bow.NewBow(lib.Size())
 	for _, fragGroup := range fmap.Segments {
 		for _, frag := range fragGroup.Frags {
