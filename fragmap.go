@@ -172,20 +172,12 @@ func (fmap *FragmentMap) Swap(i, j int) {
 	fmap.Segments[i], fmap.Segments[j] = fmap.Segments[j], fmap.Segments[i]
 }
 
-func (fmap *FragmentMap) Id() string {
-	return fmap.Name
-}
-
-func (fmap *FragmentMap) Data() []byte {
-	return nil
-}
-
-func (fmap *FragmentMap) StructureBOW(lib fragbag.StructureLibrary) bow.BOW {
+func (fmap *FragmentMap) StructureBow(lib fragbag.StructureLibrary) bow.Bowed {
 	bag := bow.NewBow(lib.Size())
 	for _, fragGroup := range fmap.Segments {
 		for _, frag := range fragGroup.Frags {
-			bag = bag.Add(bow.StructureBOW(lib, frag.CaAtoms))
+			bag = bag.Add(bow.StructureBow(lib, frag.CaAtoms))
 		}
 	}
-	return bag
+	return bow.Bowed{Id: fmap.Name, Bow: bag}
 }
