@@ -11,7 +11,7 @@ import (
 	"github.com/TuftsBCB/fragbag"
 	"github.com/TuftsBCB/fragbag/bow"
 	"github.com/TuftsBCB/io/fasta"
-	"github.com/TuftsBCB/io/hhm"
+	"github.com/TuftsBCB/io/hmm"
 	"github.com/TuftsBCB/seq"
 )
 
@@ -81,7 +81,7 @@ func (m MapConfig) MapFromHHM(pdbDb PDBDatabase, seqDb hhsuite.Database,
 	}
 	defer fquery.Close()
 
-	qhhm, err := hhm.Read(fquery)
+	qhhm, err := hmm.ReadHHM(fquery)
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +89,7 @@ func (m MapConfig) MapFromHHM(pdbDb PDBDatabase, seqDb hhsuite.Database,
 }
 
 func (m MapConfig) computeMap(
-	pdbDb PDBDatabase, qseq seq.Sequence, qhhm *hhm.HHM) (*FragmentMap, error) {
+	pdbDb PDBDatabase, qseq seq.Sequence, qhhm *hmm.HHM) (*FragmentMap, error) {
 
 	type maybeFrag struct {
 		frags Fragments

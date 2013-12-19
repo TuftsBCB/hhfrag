@@ -10,8 +10,8 @@ import (
 	"text/tabwriter"
 
 	"github.com/TuftsBCB/apps/hhsuite"
-	"github.com/TuftsBCB/io/hhm"
 	"github.com/TuftsBCB/io/hhr"
+	"github.com/TuftsBCB/io/hmm"
 	"github.com/TuftsBCB/io/pdb"
 	"github.com/TuftsBCB/seq"
 	"github.com/TuftsBCB/structure"
@@ -59,7 +59,7 @@ func (frags Fragments) Write(w io.Writer) {
 }
 
 func FindFragments(pdbDb PDBDatabase, blits bool,
-	queryHHM *hhm.HHM, qs seq.Sequence, start, end int) (*Fragments, error) {
+	queryHHM *hmm.HHM, qs seq.Sequence, start, end int) (*Fragments, error) {
 
 	pre := fmt.Sprintf("bcbgo-hhfrag-hhm-%d-%d_", start, end)
 	hhmFile, err := ioutil.TempFile("", pre)
@@ -70,7 +70,7 @@ func FindFragments(pdbDb PDBDatabase, blits bool,
 	defer hhmFile.Close()
 	hhmName := hhmFile.Name()
 
-	if err := hhm.Write(hhmFile, queryHHM.Slice(start, end)); err != nil {
+	if err := hmm.WriteHHM(hhmFile, queryHHM.Slice(start, end)); err != nil {
 		return nil, err
 	}
 
